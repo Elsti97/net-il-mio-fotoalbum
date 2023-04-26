@@ -28,9 +28,15 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Photo}/{action=Index}/{id?}");
 
-using (var ctx = new AlbumContext())
+//using (var ctx = new AlbumContext())
+//{
+//    ctx.Seed();
+//}
+
+using (var scope = app.Services.CreateScope())
+using (var ctx = scope.ServiceProvider.GetService<AlbumContext>())
 {
-    ctx.Seed();
+    ctx!.Seed();
 }
 
 app.Run();

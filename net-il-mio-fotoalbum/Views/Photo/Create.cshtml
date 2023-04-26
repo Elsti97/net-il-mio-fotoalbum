@@ -1,0 +1,55 @@
+﻿@model PhotoFormModel
+
+@{
+    ViewData["Title"] = "Crea nuova foto";
+}
+
+<h2 class="text-center">Crea nuova foto</h2>
+
+<form asp-action="Create" method="post" asp-controller="Photo">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Photo.Title">Titolo:</label>
+        <input asp-for="Photo.Title" class="form-control" />
+        <span asp-validation-for="Photo.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Photo.Description">Descrizione:</label>
+        <textarea asp-for="Photo.Description" class="form-control"></textarea>
+        <span asp-validation-for="Photo.Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Photo.Url">Url Foto:</label>
+        <input asp-for="Photo.Url" class="form-control" />
+        <span asp-validation-for="Photo.Url" class="text-danger"></span>
+    </div>
+
+@*    <div class="form-group">
+        <label asp-for="Photo.CategoryId">Categoria:</label>
+        <select asp-for="Photo.CategoryId" class="form-control">
+            <option value="" selected disabled>Seleziona una categoria</option>
+            @if (Model.Categories != null)
+            {
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="Photo.CategoryId" class="text-danger"></span>
+    </div>*@
+
+    <div class="form-group">
+        <label asp-for="SelectedCategories">Categorie:</label>
+        <select asp-for="SelectedCategories" multiple="multiple" class="form-control" asp-items="@Model.Categories">
+        </select>
+        <span asp-validation-for="SelectedCategories" class="text-danger"></span>
+    </div>
+
+    <div class="text-center my-3">
+        <button type="submit" class="btn btn-primary">Crea</button>
+    </div>
+</form>

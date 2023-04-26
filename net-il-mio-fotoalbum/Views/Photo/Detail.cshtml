@@ -1,4 +1,5 @@
-﻿@model Photo
+﻿@using System.Globalization;
+@model Photo
 
 @{
     ViewData["Title"] = "Foto n° " + Model.Id;
@@ -23,19 +24,15 @@
             <td>@Model.Title</td>
             <td>@Model.Description</td>
             <td><img src="@Model.Url" alt="@Model.Title" /></td>
+
+            <td>
+                @foreach (Category category in Model.Categories ?? Enumerable.Empty<Category>())
+                {
+                    <div>
+                        <label>@category.Name</label>
+                    </div>
+                }
+            </td>
         </tr>
-        @*        <tr>
-        <th>Categoria</th>
-        <td>
-        @if (Model.Category != null)
-        {
-        @Model.Category.Name
-        }
-        else
-        {
-        <span>Nessuna Categoria</span>
-        }
-        </td>
-        </tr>*@
     </tbody>
 </table>

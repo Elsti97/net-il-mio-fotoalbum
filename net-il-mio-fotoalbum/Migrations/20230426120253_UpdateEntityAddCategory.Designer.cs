@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using net_il_mio_fotoalbum.Models;
 
@@ -10,9 +11,11 @@ using net_il_mio_fotoalbum.Models;
 namespace net_il_mio_fotoalbum.Migrations
 {
     [DbContext(typeof(AlbumContext))]
-    partial class AlbumContextModelSnapshot : ModelSnapshot
+    [Migration("20230426120253_UpdateEntityAddCategory")]
+    partial class UpdateEntityAddCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

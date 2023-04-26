@@ -7,6 +7,8 @@ namespace net_il_mio_fotoalbum.Models
     public class AlbumContext : DbContext
     {
 
+        public AlbumContext(DbContextOptions<AlbumContext> options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=db-fotografo;Integrated Security=True; TrustServerCertificate=True; encrypt = False");
@@ -14,9 +16,36 @@ namespace net_il_mio_fotoalbum.Models
 
         public DbSet<Photo> Photos { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
 
         public void Seed()
         {
+            if (!Categories.Any())
+            {
+                var seedCategories = new Category[]
+                {
+            new Category { Name = "Ritratto" },
+            new Category { Name = "Evento" },
+            new Category { Name = "Moda" },
+            new Category { Name = "Arte" },
+            new Category { Name = "Videogioco" },
+            new Category { Name = "Architettura" },
+            new Category { Name = "Viaggio" },
+            new Category { Name = "Prodotto" },
+            new Category { Name = "Pubblicitario" },
+            new Category { Name = "Giornalismo" },
+            new Category { Name = "Sportivo" },
+            new Category { Name = "Animali" },
+            new Category { Name = "Scientifica" },
+            new Category { Name = "Aerea" },
+                };
+
+                Categories.AddRange(seedCategories);
+
+                SaveChanges();
+            }
+
             if (!Photos.Any())
             {
                 var seed = new Photo[]

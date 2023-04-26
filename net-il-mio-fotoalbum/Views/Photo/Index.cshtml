@@ -8,22 +8,33 @@
 
 <h1 class="text-center">Pagina principale</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Titolo</th>
-        </tr>
-    </thead>
+<div class="text-center">
+    <button type="button" class="btn btn-primary mx-auto my-3" onclick="location.href='@Url.Action("Create", "Photo")'">Aggiungi Fotografia</button>
+</div>
 
-    <tbody>
-        @foreach (var photo in photos)
-        {
+
+@if (photos.Length is 0)
+{
+    <p>Nessuna Foto</p>
+}
+else
+{
+    <table class="mx-auto">
+        <thead>
             <tr>
-                <td>@photo.Id</td>
-                <td><a href="@Url.Action("Detail", "Photo", new { Id = photo.Id })">@photo.Title</a></td>
-                @*<td>@photo.Title</td>*@
+                <th class="pe-2">ID</th>
+                <th>Titolo</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach (var photo in photos)
+            {
+                <tr>
+                    <td>@photo.Id</td>
+                    <td><a href="@Url.Action("Detail", "Photo", new { Id = photo.Id })">@photo.Title</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

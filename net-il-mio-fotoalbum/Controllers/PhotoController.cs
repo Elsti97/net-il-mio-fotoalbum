@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
 using System.Diagnostics;
@@ -19,7 +20,6 @@ namespace net_il_mio_fotoalbum.Controllers
         public IActionResult Index()
         {
             var photos = _context.Photos
-                //.Include(p => p.Category)
                 .DefaultIfEmpty()
                 .ToArray();
 
@@ -29,7 +29,7 @@ namespace net_il_mio_fotoalbum.Controllers
         public IActionResult Detail(int id)
         {
             var photo = _context.Photos
-                //.Include(p => p.Category)
+                .Include(p => p.Categories)
                 .DefaultIfEmpty().SingleOrDefault(p => p.Id == id);
 
             if (photo is null)
@@ -38,6 +38,38 @@ namespace net_il_mio_fotoalbum.Controllers
             }
 
             return View(photo);
+        }
+
+        public IActionResult Create()
+        {
+            var photoFormModel = new PhotoFormModel
+            {
+                Categories = _context.Categories.Select(c => new SelectListItem(c.Name, c.Id.ToString())).ToList(),
+            };
+
+            return View(photoFormModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(PhotoFormModel photoFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                photoFormModel.Categories = _context.Categories.Select(c => new SelectListItem(c.Name, c.Id.ToString())).ToList();
+
+                return View(photoFormModel);
+            }
+
+            photoFormModel.Photo.Categories = photoFormModel.SelectedCategories?.Select(sc => _context.Categories.First(c => c.Id == Convert.ToInt32(sc))).ToList();
+
+            _context.Photos.Add(photoFormModel.Photo);
+            _context.SaveChanges();
+
+            photoFormModel.Photo.Url = "https://picsum.photos/id/" + photoFormModel.Photo.Id + "/300/200";
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
