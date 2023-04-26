@@ -1,12 +1,13 @@
 ﻿@model PhotoFormModel
 
 @{
-    ViewData["Title"] = "Crea nuova foto";
+    ViewData["Title"] = "Modifica foto";
+    var photo = Model;
 }
 
 <h2 class="text-center">Crea nuova foto</h2>
 
-<form asp-action="Create" method="post" asp-controller="Photo">
+<form method="post" asp-action="Update" asp-controller="Photo" asp-route-id="@Model.Photo.Id">
     @Html.AntiForgeryToken()
 
     <div class="form-group">

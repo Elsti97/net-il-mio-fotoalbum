@@ -24,6 +24,8 @@ else
             <tr>
                 <th class="pe-2">ID</th>
                 <th>Titolo</th>
+                <th>Modifica</th>
+                <th>Elimina</th>
             </tr>
         </thead>
 
@@ -33,6 +35,17 @@ else
                 <tr>
                     <td>@photo.Id</td>
                     <td><a href="@Url.Action("Detail", "Photo", new { Id = photo.Id })">@photo.Title</a></td>
+
+                    <td>
+                        <button type="button" class="btn btn-warning mx-auto m-2" onclick="location.href='@Url.Action("Update", "Photo", new { id = photo.Id })'">Modifica</button>
+                    </td>
+
+                    <td>
+                        <form asp-action="Delete" asp-controller="Photo" asp-route-id="@photo.Id">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-danger m-2" type="submit">Elimina</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>

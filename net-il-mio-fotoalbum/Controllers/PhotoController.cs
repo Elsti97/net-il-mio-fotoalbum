@@ -72,6 +72,72 @@ namespace net_il_mio_fotoalbum.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Update(int id)
+        {
+            var photo = _context.Photos.Include(p => p.Categories).DefaultIfEmpty().SingleOrDefault(p => p.Id == id);
+
+            if (photo is null)
+            {
+                return View($"Foto numero: {id} non trovata");
+            }
+
+            var photoFormModel = new PhotoFormModel
+            {
+                Photo = photo,
+                Categories = _context.Categories.ToList().Select(c => new SelectListItem(c.Name, c.Id.ToString(), photo.Categories!.Any(_c => _c.Id == c.Id))).ToList(),
+            };
+
+            photoFormModel.SelectedCategories = photoFormModel.Categories.Where(c => c.Selected).Select(c => c.Value).ToList();
+
+            return View(photoFormModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, PhotoFormModel photoFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                photoFormModel.Categories = _context.Categories.ToList().Select(c => new SelectListItem(c.Name, c.Id.ToString())).ToList();
+
+                return View(photoFormModel);
+            }
+
+            var photoUpdate = _context.Photos.Include(p => p.Categories).FirstOrDefault(p => p.Id == id);
+
+            if (photoUpdate is null)
+            {
+                return View($"Foto numero: {id} non trovata");
+            }
+
+            photoUpdate.Title = photoFormModel.Photo.Title;
+            photoUpdate.Description = photoFormModel.Photo.Description;
+            photoUpdate.Url = photoFormModel.Photo.Url;
+            photoUpdate.Categories = photoFormModel.SelectedCategories?.Select(sc => _context.Categories.First(c => c.Id == Convert.ToInt32(sc))).ToList();
+
+            _context.Photos.Update(photoUpdate);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            var photoDelete = _context.Photos.FirstOrDefault(p => p.Id == id);
+
+            if (photoDelete is null)
+            {
+                return View("NotFound");
+            }
+
+            _context.Photos.Remove(photoDelete);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
