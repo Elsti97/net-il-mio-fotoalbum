@@ -26,6 +26,20 @@ namespace net_il_mio_fotoalbum.Controllers
             return View(photos);
         }
 
+        public IActionResult Detail(int id)
+        {
+            var photo = _context.Photos
+                //.Include(p => p.Category)
+                .DefaultIfEmpty().SingleOrDefault(p => p.Id == id);
+
+            if (photo is null)
+            {
+                return NotFound($"Foto numero: {id} non trovata");
+            }
+
+            return View(photo);
+        }
+
         public IActionResult Privacy()
         {
             return View();

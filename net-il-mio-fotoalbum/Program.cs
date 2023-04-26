@@ -2,6 +2,8 @@ using net_il_mio_fotoalbum.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<AlbumContext>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

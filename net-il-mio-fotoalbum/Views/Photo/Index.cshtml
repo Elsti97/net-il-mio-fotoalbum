@@ -8,16 +8,22 @@
 
 <h1 class="text-center">Pagina principale</h1>
 
-@*<tbody>
-    @foreach (var Photo in photos)
-    {
+<table>
+    <thead>
         <tr>
-
-            <td class="name">
-                <a href="@Url.Action("Detail", "Pizza", new { Id = photo.Id })">@photo.Title</a>
-            </td>
-            <td>@photo.Description</td>
-            <td>@photo.Url</td>
+            <th>ID</th>
+            <th>Titolo</th>
         </tr>
-    }
-</tbody>*@
+    </thead>
+
+    <tbody>
+        @foreach (var photo in photos)
+        {
+            <tr>
+                <td>@photo.Id</td>
+                <td><a href="@Url.Action("Detail", "Photo", new { Id = photo.Id })">@photo.Title</a></td>
+                @*<td>@photo.Title</td>*@
+            </tr>
+        }
+    </tbody>
+</table>

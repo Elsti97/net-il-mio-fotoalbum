@@ -1,0 +1,41 @@
+﻿@model Photo
+
+@{
+    ViewData["Title"] = "Foto n° " + Model.Id;
+}
+
+<h2 class="text-center">@Model.Title</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titolo</th>
+            <th>Descrizione</th>
+            <th>Foto</th>
+            <th>Categorie</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.Title</td>
+            <td>@Model.Description</td>
+            <td><img src="@Model.Url" alt="@Model.Title" /></td>
+        </tr>
+        @*        <tr>
+        <th>Categoria</th>
+        <td>
+        @if (Model.Category != null)
+        {
+        @Model.Category.Name
+        }
+        else
+        {
+        <span>Nessuna Categoria</span>
+        }
+        </td>
+        </tr>*@
+    </tbody>
+</table>
