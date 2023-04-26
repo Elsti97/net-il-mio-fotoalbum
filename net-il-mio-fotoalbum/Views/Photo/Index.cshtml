@@ -1,0 +1,23 @@
+﻿@using System.Globalization;
+@model Photo[]
+
+@{
+    ViewData["Title"] = "Home Page";
+    var photos = Model;
+}
+
+<h1 class="text-center">Pagina principale</h1>
+
+@*<tbody>
+    @foreach (var Photo in photos)
+    {
+        <tr>
+
+            <td class="name">
+                <a href="@Url.Action("Detail", "Pizza", new { Id = photo.Id })">@photo.Title</a>
+            </td>
+            <td>@photo.Description</td>
+            <td>@photo.Url</td>
+        </tr>
+    }
+</tbody>*@

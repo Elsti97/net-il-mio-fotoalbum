@@ -1,21 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
 using System.Diagnostics;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
-    public class HomeController : Controller
+    public class PhotoController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<PhotoController> _logger;
+        private readonly AlbumContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public PhotoController(ILogger<PhotoController> logger, AlbumContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var photos = _context.Photos
+                //.Include(p => p.Category)
+                .DefaultIfEmpty()
+                .ToArray();
+
+            return View(photos);
         }
 
         public IActionResult Privacy()
