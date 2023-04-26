@@ -1,8 +1,14 @@
+using System.Globalization;
+using Microsoft.AspNetCore.Identity;
 using net_il_mio_fotoalbum.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AlbumContext>();
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AlbumContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,16 +28,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Photo}/{action=Index}/{id?}");
 
-//using (var ctx = new AlbumContext())
-//{
-//    ctx.Seed();
-//}
+app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
 using (var ctx = scope.ServiceProvider.GetService<AlbumContext>())

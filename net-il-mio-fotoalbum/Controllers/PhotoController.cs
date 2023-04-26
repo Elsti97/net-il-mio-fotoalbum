@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
+using System.Data;
 using System.Diagnostics;
 
 namespace net_il_mio_fotoalbum.Controllers
@@ -40,6 +42,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return View(photo);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var photoFormModel = new PhotoFormModel
@@ -72,6 +75,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(int id)
         {
             var photo = _context.Photos.Include(p => p.Categories).DefaultIfEmpty().SingleOrDefault(p => p.Id == id);
@@ -121,6 +125,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

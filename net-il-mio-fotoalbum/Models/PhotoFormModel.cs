@@ -9,6 +9,7 @@ namespace net_il_mio_fotoalbum.Models
 
         public List<SelectListItem>? Categories { get; set; }
 
+        [Required(ErrorMessage = "Selezionare almeno una categoria")]
         public List<string>? SelectedCategories { get; set; }
     }
 }
