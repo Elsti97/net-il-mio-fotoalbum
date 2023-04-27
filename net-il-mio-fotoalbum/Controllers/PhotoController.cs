@@ -28,6 +28,16 @@ namespace net_il_mio_fotoalbum.Controllers
             return View(photos);
         }
 
+        public IActionResult ApiIndex()
+        {
+            return View();
+        }
+
+        public IActionResult ApiCreate()
+        {
+            return View();
+        }
+
         public IActionResult Detail(int id)
         {
             var photo = _context.Photos

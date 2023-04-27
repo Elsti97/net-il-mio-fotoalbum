@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Home Api";
+}
+
+<h1 class="text-center">Pagina Api</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="text-center">
+
+        <button type="button" class="btn btn-primary mx-auto my-3" onclick="location.href='@Url.Action("Create", "Photo")'">Aggiungi Fotografia</button>
+    </div>
+}
+
+
+<div class="text-center" id="photos-filter">
+    <div class="form-field">
+        <label class="d-block mb-3">Cerca per nome:</label>
+        <input class="mb-3" placeholder="Cerca" />
+    </div>
+</div>
+
+<h3 class="text-center" id="no-photos">Nessuna Pizza</h3>
+
+<p id="photos-loader">Loading...</p>
+
+
+<table class="mx-auto" id="photos-table">
+    <thead>
+        <tr>
+            <th class="pe-2">ID</th>
+            <th>Titolo</th>
+@*            <th>Modifica</th>
+            <th>Elimina</th>*@
+        </tr>
+    </thead>
+
+    <tbody id="photos"></tbody>
+</table>
+
+@section Scripts
+    {
+    <script>
+        loadPhotos();
+        initFilter();
+    </script>
+}
